@@ -118,6 +118,8 @@ export default function Home() {
       return;
     }
 
+    setLoading(false);
+
     const reader = data.getReader();
     const decoder = new TextDecoder();
     let done = false;
@@ -128,8 +130,6 @@ export default function Home() {
       const chunkValue = decoder.decode(value);
       setAnswer((prev) => prev + chunkValue);
     }
-
-    setLoading(false);
 
     inputRef.current?.focus();
   };
