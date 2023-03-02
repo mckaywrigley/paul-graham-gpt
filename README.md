@@ -4,7 +4,7 @@ AI-powered search and chat for [Paul Graham's](https://twitter.com/paulg) [essay
 
 All code & data used is 100% open-source.
 
-[![App Preview](./public/sceenshot.png)](https://paul-graham-gpt.vercel.app/)
+[![App Preview](./public/pg.jpeg)](https://paul-graham-gpt.vercel.app/)
 
 ## How It Works
 
