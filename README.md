@@ -96,7 +96,7 @@ npm run scrape
 
 This scrapes all of the essays from Paul Graham's website and saves them to a json file.
 
-1. Run embedding script
+7. Run embedding script
 
 ```bash
 npm run embed
@@ -128,7 +128,7 @@ I highly recommend you read his essays.
 
 If you have any questions, feel free to reach out to me on [Twitter](https://twitter.com/mckaywrigley)!
 
-## Footnotes
+## Notes
 
 I sacrificed composability for simplicity in the app.
 
