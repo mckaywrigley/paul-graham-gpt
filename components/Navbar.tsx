@@ -14,7 +14,7 @@ export const Navbar: FC = () => {
           target="_blank"
           rel="noreferrer"
         >
-          <div className="hidden sm:flex">Official Site</div>
+          <div className="hidden sm:flex">PaulGraham.com</div>
 
           <IconExternalLink
             className="ml-1"
