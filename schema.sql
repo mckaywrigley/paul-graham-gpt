@@ -1,5 +1,7 @@
+--  RUN 1st
 create extension vector;
 
+-- RUN 2nd
 create table pg (
   id bigserial primary key,
   essay_title text,
@@ -12,6 +14,7 @@ create table pg (
   embedding vector (1536)
 );
 
+-- RUN 3rd after running the scripts
 create or replace function pg_search (
   query_embedding vector(1536),
   similarity_threshold float,
@@ -49,6 +52,7 @@ begin
 end;
 $$;
 
+-- RUN 4th
 create index on pg 
 using ivfflat (embedding vector_cosine_ops)
 with (lists = 100);

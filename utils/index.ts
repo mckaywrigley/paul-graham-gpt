@@ -19,7 +19,7 @@ export const OpenAIStream = async (prompt: string, apiKey: string) => {
       messages: [
         {
           role: "system",
-          content: "You are a helpful assistant that accurately answers the user's queries about Paul Graham's thoughts based on passages from his essays. Be accurate, helpful, concise, and clear."
+          content: "You are a helpful assistant that accurately answers queries using Paul Graham's essays. Be accurate, helpful, concise, and clear. Keep your answer under 5 sentences."
         },
         {
           role: "user",
@@ -27,7 +27,7 @@ export const OpenAIStream = async (prompt: string, apiKey: string) => {
         }
       ],
       max_tokens: 150,
-      temperature: 0.0,
+      temperature: 0.2,
       stream: true
     })
   });

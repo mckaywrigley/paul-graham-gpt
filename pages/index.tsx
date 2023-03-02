@@ -145,23 +145,15 @@ export default function Home() {
     localStorage.removeItem("PG_MODE");
 
     setApiKey("");
-    setMatchCount(3);
+    setMatchCount(5);
     setMode("search");
   };
 
   useEffect(() => {
-    if (mode === "search") {
-      setMatchCount(5);
-    } else {
-      setMatchCount(3);
-    }
-  }, [mode]);
-
-  useEffect(() => {
-    if (mode === "chat" && matchCount > 5) {
-      setMatchCount(5);
-    } else if (mode === "search" && matchCount > 10) {
+    if (matchCount > 10) {
       setMatchCount(10);
+    } else if (matchCount < 1) {
+      setMatchCount(1);
     }
   }, [matchCount]);
 
@@ -232,8 +224,8 @@ export default function Home() {
                   <div>Passage Count</div>
                   <input
                     type="number"
-                    min="1"
-                    max={mode === "search" ? 10 : 5}
+                    min={1}
+                    max={10}
                     value={matchCount}
                     onChange={(e) => setMatchCount(Number(e.target.value))}
                     className="max-w-[400px] block w-full rounded-md border border-gray-300 p-2 text-black shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
