@@ -289,7 +289,7 @@ export default function Home() {
                 </button>
               </div>
             ) : (
-              <div className="text-center font-bold text-3xl mt-4">Please enter your OpenAI API key in settings.</div>
+              <div className="text-center font-bold text-3xl mt-7">Please enter your OpenAI API key in settings.</div>
             )}
 
             {loading ? (
