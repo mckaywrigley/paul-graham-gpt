@@ -14,7 +14,7 @@ I recommend getting familiar with fetching, cleaning, and storing data as outlin
 
 ## How It Works
 
-PG GPT provides 2 things:
+Paul Graham GPT provides 2 things:
 
 1. A search interface.
 2. A chat interface.
@@ -127,3 +127,11 @@ I highly recommend you read his essays.
 ## Contact
 
 If you have any questions, feel free to reach out to me on [Twitter](https://twitter.com/mckaywrigley)!
+
+## Footnotes
+
+I sacrificed composability for simplicity in the app.
+
+Yes, you can make things more modular and reusable.
+
+But I kept pretty much everything in the homepage component for the sake of simplicity.
