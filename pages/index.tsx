@@ -13,10 +13,7 @@ export default function Home() {
   const [query, setQuery] = useState<string>("");
   const [chunks, setChunks] = useState<PGChunk[]>([]);
   const [answer, setAnswer] = useState<string>("");
-  const [answerCompleted, setAnswerCompleted] = useState<boolean>(false);
-
   const [loading, setLoading] = useState<boolean>(false);
-  const [searchMessage, setSearchMessage] = useState<string>("");
 
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [mode, setMode] = useState<"search" | "chat">("chat");
@@ -35,11 +32,9 @@ export default function Home() {
     }
 
     setAnswer("");
-    setAnswerCompleted(false);
     setChunks([]);
 
     setLoading(true);
-    setSearchMessage("Embedding query...");
 
     const searchResponse = await fetch("/api/search", {
       method: "POST",
@@ -76,11 +71,27 @@ export default function Home() {
       return;
     }
 
-    const results = await handleSearch();
+    setAnswer("");
+    setChunks([]);
 
     setLoading(true);
 
-    setSearchMessage("Generating answer...");
+    const searchResponse = await fetch("/api/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ query, apiKey, matches: matchCount })
+    });
+
+    if (!searchResponse.ok) {
+      setLoading(false);
+      throw new Error(searchResponse.statusText);
+    }
+
+    const results: PGChunk[] = await searchResponse.json();
+
+    setChunks(results);
 
     const prompt = endent`
     Use the following passages to provide an answer to the query: "${query}"
@@ -107,8 +118,6 @@ export default function Home() {
       return;
     }
 
-    setLoading(false);
-
     const reader = data.getReader();
     const decoder = new TextDecoder();
     let done = false;
@@ -120,7 +129,7 @@ export default function Home() {
       setAnswer((prev) => prev + chunkValue);
     }
 
-    setAnswerCompleted(true);
+    setLoading(false);
 
     inputRef.current?.focus();
   };
@@ -303,56 +312,87 @@ export default function Home() {
             )}
 
             {loading ? (
-              <div className="mt-8 flex items-center justify-center flex-col">
-                <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
-                <div className="mt-8 text-xl">{searchMessage}</div>
+              <div className="mt-6 w-full">
+                {mode === "chat" && (
+                  <>
+                    <div className="font-bold text-2xl">Answer</div>
+                    <div className="animate-pulse mt-2">
+                      <div className="h-4 bg-gray-300 rounded"></div>
+                      <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                      <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                      <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                      <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                    </div>
+                  </>
+                )}
+
+                <div className="font-bold text-2xl mt-6">Passages</div>
+                <div className="animate-pulse mt-2">
+                  <div className="h-4 bg-gray-300 rounded"></div>
+                  <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                  <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                  <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                  <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                </div>
               </div>
-            ) : (
-              <>
-                {chunks.length > 0 ? (
-                  <div className="mt-6">
-                    <div className="font-bold text-2xl mb-2">Answer</div>
-                    {!answerCompleted && (
-                      <div className="animate-pulse">
-                        <div className="h-4 bg-gray-300 rounded"></div>
-                        <div className="h-4 bg-gray-300 rounded mt-2"></div>
-                        <div className="h-4 bg-gray-300 rounded mt-2"></div>
-                        <div className="h-4 bg-gray-300 rounded mt-2"></div>
-                        <div className="h-4 bg-gray-300 rounded mt-2"></div>
-                      </div>
-                    )}
-                    {answerCompleted && <Answer text={answer} />}
+            ) : answer ? (
+              <div className="mt-6">
+                <div className="font-bold text-2xl mb-2">Answer</div>
+                <Answer text={answer} />
 
-                    <div className={`${mode === "search" ? "mt-2" : "mt-6"} mb-16`}>
-                      <div className="font-bold text-2xl">Passages</div>
+                <div className="mt-6 mb-16">
+                  <div className="font-bold text-2xl">Passages</div>
 
-                      {chunks.map((chunk, index) => (
-                        <div key={index}>
-                          <div className="mt-4 border border-zinc-600 rounded-lg p-4">
-                            <div className="flex justify-between">
-                              <div>
-                                <div className="font-bold text-xl">{chunk.essay_title}</div>
-                                <div className="mt-1 font-bold text-sm">{chunk.essay_date}</div>
-                              </div>
-                              <a
-                                className="hover:opacity-50 ml-2"
-                                href={chunk.essay_url}
-                                target="_blank"
-                                rel="noreferrer"
-                              >
-                                <IconExternalLink />
-                              </a>
-                            </div>
-                            <div className="mt-2">{chunk.content}</div>
+                  {chunks.map((chunk, index) => (
+                    <div key={index}>
+                      <div className="mt-4 border border-zinc-600 rounded-lg p-4">
+                        <div className="flex justify-between">
+                          <div>
+                            <div className="font-bold text-xl">{chunk.essay_title}</div>
+                            <div className="mt-1 font-bold text-sm">{chunk.essay_date}</div>
                           </div>
+                          <a
+                            className="hover:opacity-50 ml-2"
+                            href={chunk.essay_url}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <IconExternalLink />
+                          </a>
                         </div>
-                      ))}
+                        <div className="mt-2">{chunk.content}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : chunks.length > 0 ? (
+              <div className="mt-6 pb-16">
+                <div className="font-bold text-2xl">Passages</div>
+                {chunks.map((chunk, index) => (
+                  <div key={index}>
+                    <div className="mt-4 border border-zinc-600 rounded-lg p-4">
+                      <div className="flex justify-between">
+                        <div>
+                          <div className="font-bold text-xl">{chunk.essay_title}</div>
+                          <div className="mt-1 font-bold text-sm">{chunk.essay_date}</div>
+                        </div>
+                        <a
+                          className="hover:opacity-50 ml-2"
+                          href={chunk.essay_url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <IconExternalLink />
+                        </a>
+                      </div>
+                      <div className="mt-2">{chunk.content}</div>
                     </div>
                   </div>
-                ) : (
-                  <div className="mt-6 text-center text-lg">{`AI-powered search & chat for Paul Graham's essays.`}</div>
-                )}
-              </>
+                ))}
+              </div>
+            ) : (
+              <div className="mt-6 text-center text-lg">{`AI-powered search & chat for Paul Graham's essays.`}</div>
             )}
           </div>
         </div>
