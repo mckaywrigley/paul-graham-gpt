@@ -1,3 +1,4 @@
+import { Answer } from "@/components/Answer/Answer";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { PGChunk } from "@/types";
@@ -12,6 +13,7 @@ export default function Home() {
   const [query, setQuery] = useState<string>("");
   const [chunks, setChunks] = useState<PGChunk[]>([]);
   const [answer, setAnswer] = useState<string>("");
+  const [answerCompleted, setAnswerCompleted] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [searchMessage, setSearchMessage] = useState<string>("");
@@ -33,6 +35,7 @@ export default function Home() {
     }
 
     setAnswer("");
+    setAnswerCompleted(false);
     setChunks([]);
 
     setLoading(true);
@@ -106,6 +109,8 @@ export default function Home() {
       const chunkValue = decoder.decode(value);
       setAnswer((prev) => prev + chunkValue);
     }
+
+    setAnswerCompleted(true);
 
     inputRef.current?.focus();
   };
@@ -304,12 +309,17 @@ export default function Home() {
               <>
                 {chunks.length > 0 ? (
                   <div className="mt-6">
-                    {answer && (
-                      <>
-                        <div className="font-bold text-2xl">Answer</div>
-                        <div className="mt-2">{answer}</div>
-                      </>
+                    <div className="font-bold text-2xl mb-2">Answer</div>
+                    {!answerCompleted && (
+                      <div className="animate-pulse">
+                        <div className="h-4 bg-gray-300 rounded"></div>
+                        <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                        <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                        <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                        <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                      </div>
                     )}
+                    {answerCompleted && <Answer text={answer} />}
 
                     <div className={`${mode === "search" ? "mt-2" : "mt-6"} mb-16`}>
                       <div className="font-bold text-2xl">Passages</div>
