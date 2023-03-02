@@ -7,9 +7,6 @@ import { encode } from "gpt-3-encoder";
 const BASE_URL = "http://www.paulgraham.com/";
 const CHUNK_SIZE = 200;
 
-let CHAPTER_NUM = 1;
-let CHAPTER_TITLE = "";
-
 const getLinks = async () => {
   const html = await axios.get(`${BASE_URL}articles.html`);
   const $ = cheerio.load(html.data);
@@ -180,44 +177,6 @@ const chunkEssay = async (essay: PGEssay) => {
 
   return chunkedSection;
 };
-
-// const countThankedPeople = async (essays: PGEssay[]) => {
-//   const thankedPeople: { [key: string]: number } = {};
-
-//   essays.forEach((essay) => {
-//     if (essay.thanks) {
-//       const thanked = essay.thanks.split("Thanks to")[1].split(",");
-
-//       thanked.forEach((person) => {
-//         let name = person.trim();
-
-//         if (name.indexOf("and ") !== -1) {
-//           const split = name.split("and");
-//           const first = split[0].trim();
-//           const second = split[1].split("for")[0].trim();
-
-//           name = first + second;
-//           name = name.trim();
-//         }
-
-//         if (thankedPeople[name]) {
-//           thankedPeople[name] += 1;
-//         } else {
-//           thankedPeople[name] = 1;
-//         }
-//       });
-//     }
-//   });
-
-//   const sorted = Object.keys(thankedPeople)
-//     .sort((a, b) => thankedPeople[b] - thankedPeople[a])
-//     .reduce((acc: any, key) => {
-//       acc[key] = thankedPeople[key];
-//       return acc;
-//     }, {});
-
-//   return sorted;
-// };
 
 (async () => {
   const links = await getLinks();
