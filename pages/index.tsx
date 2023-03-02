@@ -66,6 +66,16 @@ export default function Home() {
   };
 
   const handleAnswer = async () => {
+    if (!apiKey) {
+      alert("Please enter an API key.");
+      return;
+    }
+
+    if (!query) {
+      alert("Please enter a query.");
+      return;
+    }
+
     const results = await handleSearch();
 
     setLoading(true);
