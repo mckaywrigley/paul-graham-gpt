@@ -29,7 +29,7 @@ const handler = async (req: Request): Promise<Response> => {
     const json = await res.json();
     const embedding = json.data[0].embedding;
 
-    const { data: chunks, error } = await supabaseAdmin.rpc("paulg_search", {
+    const { data: chunks, error } = await supabaseAdmin.rpc("pg_search", {
       query_embedding: embedding,
       similarity_threshold: 0.01,
       match_count: matches
