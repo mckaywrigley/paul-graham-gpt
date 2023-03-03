@@ -49,15 +49,15 @@ Here's a quick overview of how to run it locally.
 
 You'll need an OpenAI API key to generate embeddings.
 
-2. Set up Supabase
+2. Set up Supabase and create a database
+
+Note: You don't have to use Supabase. Use whatever method you prefer to store your data. But I like Supabase and think it's easy to use.
 
 There is a schema.sql file in the root of the repo that you can use to set up the database.
 
 Run that in the SQL editor in Supabase as directed.
 
 I recommend turning on Row Level Security and setting up a service role to use with the app.
-
-Note: You don't have to use Supabase. Use whatever method you prefer to store your data. But I like Supabase and think it's easy to use.
 
 ### Repo Setup
 
