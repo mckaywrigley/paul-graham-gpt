@@ -49,31 +49,35 @@ Here's a quick overview of how to run it locally.
 
 You'll need an OpenAI API key to generate embeddings.
 
-2. Set up Supabase
+2. Create Supabase database
+
+Note: You don't have to use Supabase. Use whatever method you prefer to store your data. But I like Supabase and think it's easy to use.
+
+I recommend turning on Row Level Security and setting up a service role to use with the app.
+
+
+
+3. Run DB migration
 
 There is a schema.sql file in the root of the repo that you can use to set up the database.
 
 Run that in the SQL editor in Supabase as directed.
 
-I recommend turning on Row Level Security and setting up a service role to use with the app.
-
-Note: You don't have to use Supabase. Use whatever method you prefer to store your data. But I like Supabase and think it's easy to use.
-
 ### Repo Setup
 
-3. Clone repo
+4. Clone repo
 
 ```bash
 git clone https://github.com/mckaywrigley/paul-graham-gpt.git
 ```
 
-4. Install dependencies
+5. Install dependencies
 
 ```bash
 npm i
 ```
 
-5. Set up environment variables
+6. Set up environment variables
 
 Create a .env.local file in the root of the repo with the following variables:
 
@@ -83,16 +87,6 @@ OPENAI_API_KEY=
 NEXT_PUBLIC_SUPABASE_URL=
 SUPABASE_SERVICE_ROLE_KEY=
 ```
-
-### Dataset
-
-6. Run scraping script
-
-```bash
-npm run scrape
-```
-
-This scrapes all of the essays from Paul Graham's website and saves them to a json file.
 
 7. Run embedding script
 
@@ -133,3 +127,15 @@ I sacrificed composability for simplicity in the app.
 Yes, you can make things more modular and reusable.
 
 But I kept pretty much everything in the homepage component for the sake of simplicity.
+
+## Data
+
+The data comes from Paul Graham's essays on his website, and saves them to a json file.
+
+The data is already stored in a file 'scripts/pg.json', however if you want to scrape the data yourself, follow the steps below.
+
+Run scraping script
+
+```bash
+npm run scrape
+```
