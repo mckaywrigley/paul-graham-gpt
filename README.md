@@ -41,9 +41,7 @@ This allows for a chat-like experience where the user can ask questions about th
 
 ## Running Locally
 
-In the near future I'll have a detailed how-to guide for this project.
-
-For now, here's a quick overview of how to run it locally.
+Here's a quick overview of how to run it locally.
 
 ### Requirements
 
