@@ -1,5 +1,5 @@
 .fadeIn {
-  animation: fadeIn 1s ease-in-out forwards;
+  animation: fadeIn 0.5s ease-in-out forwards;
   opacity: 0;
 }
 

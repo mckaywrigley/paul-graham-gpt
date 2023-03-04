@@ -18,7 +18,7 @@ export const Answer: React.FC<AnswerProps> = ({ text }) => {
         <span
           key={index}
           className={styles.fadeIn}
-          style={{ animationDelay: `${index * 0.02}s` }}
+          style={{ animationDelay: `${index * 0.01}s` }}
         >
           {word}{" "}
         </span>
