@@ -7,10 +7,12 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain, ConversationChain
 from langchain.document_loaders import UnstructuredURLLoader
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
-
-os.environ["OPENAI_API_KEY"] = "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"
 
 from langchain.document_loaders import PagedPDFSplitter
 
@@ -20,7 +22,7 @@ pages = loader.load_and_split()
 from langchain.text_splitter import NLTKTextSplitter
 text_splitter = NLTKTextSplitter(chunk_size=1000)
 
-for page in data:
+for page in pages:
     texts = text_splitter.split_text(page.page_content)
     print(texts)
 
@@ -52,7 +54,7 @@ print(conversation.predict(input="I'm doing well! Just having a conversation wit
 
 sys.exit()
 
-os.environ["SERPAPI_API_KEY"] = "8556706a1428f164e875b6a1d6b0ae77652727d88ab97d0d56d0275d2b9a0fcc"
+os.environ["SERPAPI_API_KEY"] = ""
 
 # First, let's load the language model we're going to use to control the agent.
 llm = OpenAI(temperature=0)
