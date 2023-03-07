@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 from langchain.agents import load_tools
 from langchain.agents import initialize_agent
 from langchain.llms import OpenAI
@@ -10,8 +11,6 @@ from langchain.document_loaders import UnstructuredURLLoader
 from dotenv import load_dotenv
 
 load_dotenv()
-
-print(os.getenv('OPENAI_API_KEY'))
 
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
@@ -24,10 +23,16 @@ pages = loader.load_and_split()
 from langchain.text_splitter import NLTKTextSplitter
 text_splitter = NLTKTextSplitter(chunk_size=1000)
 
+chunks = []
+# source: "sources/2022_state_of_devops_report.pdf"
 for page in pages:
     texts = text_splitter.split_text(page.page_content)
-    print(texts)
+    for text in texts:
+        chunks.append(
+            {"source": "sources/2022_state_of_devops_report.pdf", "content": text}
+        )
 
+pp.pprint(chunks)
 sys.exit()
 
 urls = [
