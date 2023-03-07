@@ -7,6 +7,7 @@ from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain, ConversationChain
 from langchain.document_loaders import UnstructuredURLLoader
+from langchain.text_splitter import NLTKTextSplitter
 
 from dotenv import load_dotenv
 
@@ -18,21 +19,21 @@ pp = pprint.PrettyPrinter(indent=4)
 # CHUNKS TO PUT IN JSON
 chunks = []
 
-# SPLIT PDFS
-from langchain.document_loaders import PagedPDFSplitter
-
-loader = PagedPDFSplitter("sources/2022_state_of_devops_report.pdf")
-pages = loader.load_and_split()
-
-from langchain.text_splitter import NLTKTextSplitter
 text_splitter = NLTKTextSplitter(chunk_size=1000)
 
-for page in pages:
-    texts = text_splitter.split_text(page.page_content)
-    for text in texts:
-        chunks.append(
-            {"source": "sources/2022_state_of_devops_report.pdf", "content": text}
-        )
+# SPLIT PDFS
+# from langchain.document_loaders import PagedPDFSplitter
+#
+# loader = PagedPDFSplitter("sources/2022_state_of_devops_report.pdf")
+# pages = loader.load_and_split()
+#
+#
+# for page in pages:
+#     texts = text_splitter.split_text(page.page_content)
+#     for text in texts:
+#         chunks.append(
+#             {"source": "sources/2022_state_of_devops_report.pdf", "content": text}
+#         )
 
 # SCRAPE FROM URL
 urls = [
@@ -47,7 +48,10 @@ loader = UnstructuredURLLoader(urls=urls)
 
 data = loader.load()
 
-print(data)
+for url_data in data:
+    texts = text_splitter.split_text(url_data.page_content)
+    for text in texts:
+        chunks.append({"source": url_data.metadata["source"], "content": text})
 
 # WRITE TO JSON
 json_object = json.dumps(chunks)
