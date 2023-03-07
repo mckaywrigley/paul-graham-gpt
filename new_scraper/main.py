@@ -15,6 +15,10 @@ load_dotenv()
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
+# CHUNKS TO PUT IN JSON
+chunks = []
+
+# SPLIT PDFS
 from langchain.document_loaders import PagedPDFSplitter
 
 loader = PagedPDFSplitter("sources/2022_state_of_devops_report.pdf")
@@ -23,8 +27,6 @@ pages = loader.load_and_split()
 from langchain.text_splitter import NLTKTextSplitter
 text_splitter = NLTKTextSplitter(chunk_size=1000)
 
-chunks = []
-# source: "sources/2022_state_of_devops_report.pdf"
 for page in pages:
     texts = text_splitter.split_text(page.page_content)
     for text in texts:
@@ -32,9 +34,7 @@ for page in pages:
             {"source": "sources/2022_state_of_devops_report.pdf", "content": text}
         )
 
-pp.pprint(chunks)
-sys.exit()
-
+# SCRAPE FROM URL
 urls = [
     # works
     "https://www.swarmia.com/blog/developer-experience-what-why-how/",
@@ -48,6 +48,11 @@ loader = UnstructuredURLLoader(urls=urls)
 data = loader.load()
 
 print(data)
+
+# WRITE TO JSON
+json_object = json.dumps(chunks)
+with open("pg.json", "w") as outfile:
+    outfile.write(json_object)
 
 sys.exit()
 
