@@ -1,0 +1,81 @@
+Team swarming requires standard norming
+The way we work is changing more rapidly than ever before.
+
+We’ve moved on from the idea of lone superstars and now place more emphasis on teams. Within teams, leaders are realizing that our new ways of work require faster ramp times, more flexible team norms, and innovative ways to sustain teams.
+
+Organizations need to focus on building teams that can quickly assemble, ramp up, get results, then dissolve. More and more companies are breaking out of static and hierarchical teams. At first it was to create standing cross-functional teams, but more teams are popping up quickly to tackle an issue and then dissolve once they’ve delivered.
+
+This new kind of team requires faster ramp speeds. It used to be okay to take 6-12 months for a team to hit their stride and start working well together. But this timeline has changed; it now requires getting up to speed in a couple weeks and then maintaining that rhythm over time. Managers will need to adjust to this new cadence and speed.
+
+Most companies today focus on the mechanics and logistics of bringing the team together. But this has become table stakes. Just a few years ago the gold standard was identifying the right mix of people for the team, scheduling meetings across time zones, and having collaboration platforms. Now, great companies invest in cultural and behavioural norms to hold a team together and maximize the team’s performance.
+
+These new requirements put pressure on people managers. Not only are they supposed to be experts in their domain and deal with a more uncertain world, but they are also tasked with finding repeatable ways to quickly get the most out of different mixes of team members.
+
+It’s tempting to underestimate the effort level & skill required to lead this new, dynamic kind of team. To benchmark, consider a different kind of team: a sports team. A sports team has a (relatively) static set of teammates, training camp, and narrowly defined goals, and still requires a very capable full-time coach. In contrast, your people managers have team membership shifting often, no time to train or ramp up, and complex and changing objectives. It’s no surprise that your people managers are feeling the pressure. Giving your people managers a time efficient and simple way to get the most out of their team, quickly, is of critical importance.
+
+There are two things you need to do to succeed at creating rapidly forming high performing teams across your enterprise. Both of these things will test managers’ execution, EQ, and ability to evolve their ways of working.
+
+The first is a simple recipe for teams to move from launch to quickly aligning on how to perform well.
+
+The second is an innovative and flexible system to help teams sustain high performance.
+
+‍
+
+The team ramp up recipe
+Team ramp up and performance is usually left to managers, with only their initiative and intuition to guide them. The reality is that most managers don’t have the time or skills to do a great ramp up. That results in two less-than-ideal scenarios. Either we have a team that is slow to ramp to full effectiveness, or we have a team that ramps well but was propelled by a manager who spent a ton of time and effort (sometimes at the expense of other priorities) ramping the team.
+
+If you're a manager in this situation, it can be helpful to remember that you’re not alone in tackling this aggressive goal. We recommend you question the urge to spend unsustainable amounts of time or effort in ramping your team.
+
+We’ve written before about avoiding the “be a hero” mentality and the importance of asking for help, and this is no exception. Now is not the time to be a hero - if anything, now is the time to shepherd your organization along the path, and reach out to your talent team to request resources.
+
+Great companies have a paint by numbers suite of actions any team leader can run. This recipe must solve:
+
+1. Setting explicit norms, for high performance
+2. Building empathy and understanding across team members that leads to trusting relationships
+3. Holding the team accountable and helping course correct
+
+At McKinsey, we held a standard teamming session (aka “team learning”) to kick off every project. It wasn’t complicated and it was rigorously adhered to. Every team member wrote down and shared our personality preferences, learning goals for the project, and personal constraints/preferences. We aligned on a set of behaviours, and had regular, lightweight check-ins to make sure that we were following them. This system kept everyone on track, served our team’s bespoke needs, and also supported the standard ways of working across the company.
+
+What’s critical was that this process was very easy for managers to follow.
+
+You don’t have to use McKinsey’s system, but whatever system you choose should be simple, easy to prepare, and still be effective. Pick a ramp up model with few touchpoints/exercises and communicate what needs to happen in a straightforward way. A starting point can be a simple PDF guide & template or software tools that manage the process.
+
+Ideally, talent and development teams will provide tools and guidance to managers across the company. If you are a manager and find yourself lacking formal resources, there are plenty of low-cost tools and hacky ways to replicate the process we’ve outlined above.
+
+There are a series of activities that build team understanding through preferences assessments, discussions, team diagnostics, and improvement conversations, with a final step of establishing ways to check in and maintain high-performing habits.
+
+For managers, facilitating these complex discussions becomes as easy as clicking the next big blue button that comes up on the screen.
+
+‍
+
+Sustain the team’s performance
+Once the team is ramped up, we need to keep them at top performance.
+
+Leaders know that it’s important to stay ahead of the competition and meet rising standards. To do this, teams must continuously improve.
+
+What leaders sometimes forget is that a team is not a static entity; everything about a team, from its members to its culture and norms, can change over time. If left unattended, teams can change in the wrong way and revert to lower performance.
+
+A team is like a garden, not a brick house.
+
+We may think that, by providing initial resources to build team alignment, we’re laying bricks that will stand the test of time. Once we’ve laid a strong foundation, then the structure will remain strong forever, right?
+
+Instead, teams are more like gardens, which require consistent work and upkeep to thrive. In the messy world of human relationships, team dynamics are in constant flux and need ongoing investment. Even more so if a team’s goals and members change frequently.
+
+The good news is that doing this is simple, but it requires discipline.
+
+Managers need to lead teams in building connection and alignment. Teams need to set aside time to talk about how they are working together, identify issues, and come up with resolutions. To get the most out of these sessions, we recommend a common structure that includes a way to efficiently hear from everyone and that brings data and objectivity to the process. These reflections often happen in quarterly reviews or agile retrospectives.
+
+Teams can run a quick diagnostic and see how closely they align to factors associated with high performing teams. Our discussion guide lets teams easily host a debrief session and come up with next steps, which the platform will remind you to commit to and follow through on. Our data then tracks your team’s improvement over time and over future Aligns.
+
+The biggest barrier to achieving sustainable team performance is teams simply taking the time to have a review and discussion.
+
+This issue often falls on managers’ shoulders - it can be useful to remember that finding the time to have an important but not urgent discussion is an issue of discipline and prioritization more than anything else.
+
+Talent leaders on the CHRO’s team can play a critical role in embedding this practice in the organization’s culture. Many teams need that personal trainer or buddy who motivates them to get out of the daily grind and invest in themselves in a process that will yield long-term results.
+
+‍
+
+Conclusion
+It’s no secret that this has been an usual year for teams.
+
+We hope these tips help you understand this new way of working, and empower your organization to make changes to keep teams performing at their best.
