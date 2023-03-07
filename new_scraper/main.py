@@ -12,21 +12,10 @@ pp = pprint.PrettyPrinter(indent=4)
 
 os.environ["OPENAI_API_KEY"] = "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"
 
+from langchain.document_loaders import PagedPDFSplitter
 
-from langchain.document_loaders import PDFMinerLoader
-loader = PDFMinerLoader("sources/2022_state_of_devops_report.pdf")
-data = loader.load()
-
-pp.pprint(data)
-
-# error about "Failed to load the Detectron2 model.""
-# from langchain.document_loaders import UnstructuredPDFLoader
-#
-# loader = UnstructuredPDFLoader("sources/2022_state_of_devops_report.pdf")
-#
-# data = loader.load()
-#
-# print(data)
+loader = PagedPDFSplitter("sources/2022_state_of_devops_report.pdf")
+pages = loader.load_and_split()
 
 from langchain.text_splitter import NLTKTextSplitter
 text_splitter = NLTKTextSplitter(chunk_size=1000)
@@ -34,13 +23,6 @@ text_splitter = NLTKTextSplitter(chunk_size=1000)
 for page in data:
     texts = text_splitter.split_text(page.page_content)
     print(texts)
-
-sys.exit()
-
-from langchain.document_loaders import PagedPDFSplitter
-
-loader = PagedPDFSplitter("sources/2022_state_of_devops_report.pdf")
-pages = loader.load_and_split()
 
 
 sys.exit()
