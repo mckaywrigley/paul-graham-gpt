@@ -1,5 +1,6 @@
 import os
 import sys
+import glob
 import json
 from langchain.agents import load_tools
 from langchain.agents import initialize_agent
@@ -22,20 +23,23 @@ chunks = []
 text_splitter = NLTKTextSplitter(chunk_size=1000)
 
 # SPLIT PDFS
-# from langchain.document_loaders import PagedPDFSplitter
-#
-# loader = PagedPDFSplitter("sources/2022_state_of_devops_report.pdf")
-# pages = loader.load_and_split()
-#
-#
-# for page in pages:
-#     texts = text_splitter.split_text(page.page_content)
-#     for text in texts:
-#         chunks.append(
-#             {"source": "sources/2022_state_of_devops_report.pdf", "content": text}
-#         )
+"""
+from langchain.document_loaders import PagedPDFSplitter
+
+loader = PagedPDFSplitter("sources/2022_state_of_devops_report.pdf")
+pages = loader.load_and_split()
+
+
+for page in pages:
+    texts = text_splitter.split_text(page.page_content)
+    for text in texts:
+        chunks.append(
+            {"source": "sources/2022_state_of_devops_report.pdf", "content": text}
+        )
+"""
 
 # SCRAPE FROM URL
+"""
 urls = [
     # works
     "https://www.swarmia.com/blog/developer-experience-what-why-how/",
@@ -71,6 +75,18 @@ for url_data in data:
     texts = text_splitter.split_text(url_data.page_content)
     for text in texts:
         chunks.append({"source": url_data.metadata["source"], "content": text})
+"""
+
+# PARSE TEXT FILES
+parsed = []
+for txt_file in glob.glob("sources/*.txt"):
+    with open(txt_file) as f:
+        parsed.append({"source": txt_file, "unchunked_content": f.read()})
+
+for page in parsed:
+    texts = text_splitter.split_text(page["unchunked_content"])
+    for text in texts:
+        chunks.append({"source": page["source"], "content": text})
 
 # WRITE TO JSON
 json_object = json.dumps(chunks)
