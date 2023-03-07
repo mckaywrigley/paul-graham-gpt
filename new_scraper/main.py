@@ -39,6 +39,25 @@ text_splitter = NLTKTextSplitter(chunk_size=1000)
 urls = [
     # works
     "https://www.swarmia.com/blog/developer-experience-what-why-how/",
+    "https://www.swarmia.com/blog/size-age-culture-productivity/",
+    "https://www.swarmia.com/blog/continuous-improvement-in-software-development/",
+    "https://www.swarmia.com/blog/daily-stand-ups/",
+    "https://www.swarmia.com/blog/velocity-vs-cycle-time/",
+    "https://www.swarmia.com/blog/space-framework/",
+    "https://www.swarmia.com/blog/dora-change-failure-rate/",
+    "https://www.swarmia.com/blog/balancing-engineering-investments/",
+    "https://www.swarmia.com/blog/ship-software-10x-faster/",
+    "https://www.swarmia.com/blog/product-development-performance-for-investors/",
+    "https://www.swarmia.com/blog/dora-metrics/",
+    "https://www.swarmia.com/blog/software-engineers-learn-on-company-time/",
+    "https://www.swarmia.com/blog/issue-cycle-time/",
+    "https://www.swarmia.com/blog/agile-team-working-agreements/",
+    "https://www.swarmia.com/blog/measuring-software-development-productivity/",
+    "https://www.swarmia.com/blog/data-driven-retrospectives-stop-fake-improvements/",
+    "https://www.swarmia.com/blog/a-complete-guide-to-code-reviews/",
+    "https://www.swarmia.com/blog/well-researched-advice-on-software-team-productivity/",
+    "https://www.swarmia.com/blog/busting-the-10x-software-engineer-myth/",
+
     # didn't work
     # "https://devinterrupted.com/level-up-your-engineering-management-skills-why-you-should-view-your-mistakes-as-misses",
     # "https://jellyfish.co/blog/engineering-kpis-during-an-economic-downtrun/",
