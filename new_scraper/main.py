@@ -11,6 +11,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+print(os.getenv('OPENAI_API_KEY'))
+
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -25,7 +27,6 @@ text_splitter = NLTKTextSplitter(chunk_size=1000)
 for page in pages:
     texts = text_splitter.split_text(page.page_content)
     print(texts)
-
 
 sys.exit()
 
