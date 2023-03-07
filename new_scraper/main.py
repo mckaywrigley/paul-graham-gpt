@@ -78,6 +78,7 @@ for url_data in data:
 """
 
 # PARSE TEXT FILES
+"""
 parsed = []
 for txt_file in glob.glob("sources/*.txt"):
     with open(txt_file) as f:
@@ -87,6 +88,7 @@ for page in parsed:
     texts = text_splitter.split_text(page["unchunked_content"])
     for text in texts:
         chunks.append({"source": page["source"], "content": text})
+"""
 
 # WRITE TO JSON
 json_object = json.dumps(chunks)
@@ -94,6 +96,18 @@ with open("pg.json", "w") as outfile:
     outfile.write(json_object)
 
 sys.exit()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 llm = OpenAI(temperature=0)
