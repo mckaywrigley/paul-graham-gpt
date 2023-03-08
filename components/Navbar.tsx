@@ -7,19 +7,20 @@ export const Navbar: FC = () => {
       <div className="font-bold text-2xl flex items-center">
         <a
           className="hover:opacity-50"
-          href="https://paul-graham-gpt.vercel.app"
+          // TODO: // Change this to the current webpage
+          href="http://localhost:3000/"
         >
-          Paul Graham GPT
+          Setori
         </a>
       </div>
       <div>
         <a
           className="flex items-center hover:opacity-50"
-          href="http://www.paulgraham.com/articles.html"
+          href="https://www.setori.ai/"
           target="_blank"
           rel="noreferrer"
         >
-          <div className="hidden sm:flex">PaulGraham.com</div>
+          <div className="hidden sm:flex">setori.ai</div>
 
           <IconExternalLink
             className="ml-1"

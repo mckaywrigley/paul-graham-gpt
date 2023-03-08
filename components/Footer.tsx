@@ -1,4 +1,4 @@
-import { IconBrandGithub, IconBrandTwitter } from "@tabler/icons-react";
+import { IconBrandLinkedin, IconBrandTwitter } from "@tabler/icons-react";
 import { FC } from "react";
 
 export const Footer: FC = () => {
@@ -7,44 +7,43 @@ export const Footer: FC = () => {
       <div className="hidden sm:flex"></div>
 
       <div className="hidden sm:flex italic text-sm">
-        Created by
+        Crafted by
         <a
           className="hover:opacity-50 mx-1"
           href="https://twitter.com/mckaywrigley"
           target="_blank"
           rel="noreferrer"
         >
-          Mckay Wrigley
+          Setori
         </a>
-        based on the essays of
+        & inspired by the talented
         <a
           className="hover:opacity-50 ml-1"
-          href="https://twitter.com/paulg"
+          href="https://twitter.com/mckaywrigley"
           target="_blank"
           rel="noreferrer"
         >
-          Paul Graham
+          Mckay Wrigley
         </a>
         .
       </div>
 
       <div className="flex space-x-4">
+      <a
+          className="flex items-center hover:opacity-50"
+          href="https://www.linkedin.com/company/91703932"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <IconBrandLinkedin size={24} />
+        </a>
         <a
           className="flex items-center hover:opacity-50"
-          href="https://twitter.com/mckaywrigley"
+          href="https://twitter.com/setoriai"
           target="_blank"
           rel="noreferrer"
         >
           <IconBrandTwitter size={24} />
-        </a>
-
-        <a
-          className="flex items-center hover:opacity-50"
-          href="https://github.com/mckaywrigley/paul-graham-gpt"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <IconBrandGithub size={24} />
         </a>
       </div>
     </div>
