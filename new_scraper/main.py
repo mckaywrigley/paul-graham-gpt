@@ -2,6 +2,8 @@ import os
 import sys
 import glob
 import json
+import argparse
+import validators
 from langchain.agents import load_tools
 from langchain.agents import initialize_agent
 from langchain.llms import OpenAI
@@ -17,14 +19,19 @@ load_dotenv()
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
+parser = argparse.ArgumentParser()
+parser.add_argument('document', type=str)
+
+if ()
+
 # CHUNKS TO PUT IN JSON
 chunks = []
 
-text_splitter = NLTKTextSplitter(chunk_size=1000)  # use this for everything if you can
+# text_splitter = NLTKTextSplitter(chunk_size=1000)  # use this for everything if you can
 # text_splitter = SpacyTextSplitter(chunk_size=1000)
 
 # use this if we can't get small enough chunks
-# text_splitter = CharacterTextSplitter.from_tiktoken_encoder(chunk_size=1000, chunk_overlap=100)
+text_splitter = CharacterTextSplitter.from_tiktoken_encoder(chunk_size=1000, chunk_overlap=100)
 
 # HTML (aka EPUB)
 """
