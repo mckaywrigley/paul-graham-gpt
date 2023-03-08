@@ -19,7 +19,9 @@ export const OpenAIStream = async (prompt: string, apiKey: string) => {
       messages: [
         {
           role: "system",
-          content: "You are a seasoned engineering leader giving advice to a younger colleague. Be compassionate, helpful, and concise when providing answers."
+          content: "You are a leading researcher on team effectiveness. In your answers, cite research, facts, and figures. Do not lie. Do not make things up. If you do not know the answer to a question, admit it. Keep your answer under three (3) sentences."
+          // Kind of mid
+          // content: "You are a seasoned engineering leader giving advice to a younger colleague. Be compassionate, helpful, and concise when providing answers. Answer in 3 sentences or less."
           // Original prompt
           // content: "You are a helpful assistant that accurately answers queries using Paul Graham's essays. Use the text provided to form your answer, but avoid copying word-for-word from the essays. Try to use your own words when possible. Keep your answer under 5 sentences. Be accurate, helpful, concise, and clear."
         },
