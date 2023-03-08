@@ -8,7 +8,7 @@ from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain, ConversationChain
 from langchain.document_loaders import UnstructuredURLLoader
-from langchain.text_splitter import NLTKTextSplitter
+from langchain.text_splitter import NLTKTextSplitter, SpacyTextSplitter, CharacterTextSplitter
 
 from dotenv import load_dotenv
 
@@ -20,7 +20,23 @@ pp = pprint.PrettyPrinter(indent=4)
 # CHUNKS TO PUT IN JSON
 chunks = []
 
-text_splitter = NLTKTextSplitter(chunk_size=1000)
+text_splitter = NLTKTextSplitter(chunk_size=1000)  # use this for everything
+# text_splitter = SpacyTextSplitter(chunk_size=1000)
+
+# use this if we can't get small enough chunks
+# text_splitter = CharacterTextSplitter.from_tiktoken_encoder(chunk_size=1000, chunk_overlap=100)
+
+# HTML (aka EPUB)
+"""
+from langchain.document_loaders import UnstructuredHTMLLoader
+loader = UnstructuredHTMLLoader("sources/managers-path.html")
+data = loader.load()
+texts = text_splitter.split_text(data[0].page_content)
+for text in texts:
+    chunks.append(
+        {"source": "sources/managers-path.html", "content": text}
+    )
+"""
 
 # SPLIT PDFS
 """
@@ -39,8 +55,11 @@ for page in pages:
 """
 
 # SCRAPE FROM URL
-"""
+# """
 urls = [
+    # rework
+    "https://rework.withgoogle.com/print/guides/5749328048029696/",
+
     # code climate
     # "https://cod-twister-production.cl-us-east-3.servd.dev/blog/7-biggest-communication-problems-facing-remote-engineering-teams",
     # "https://cod-twister-production.cl-us-east-3.servd.dev/blog/abandoned-pull-requests",
@@ -174,7 +193,7 @@ for url_data in data:
     texts = text_splitter.split_text(url_data.page_content)
     for text in texts:
         chunks.append({"source": url_data.metadata["source"], "content": text})
-"""
+# """
 
 # PARSE TEXT FILES
 """
