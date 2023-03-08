@@ -369,7 +369,7 @@ export default function Home() {
                             <IconExternalLink />
                           </a>
                         </div>
-                        <div className="mt-2">{chunk.content}</div>
+                        <div className="mt-2 text-slate-400">{chunk.content}</div>
                       </div>
                     </div>
                   ))}
@@ -395,7 +395,7 @@ export default function Home() {
                           <IconExternalLink />
                         </a>
                       </div>
-                      <div className="mt-2">{chunk.content}</div>
+                      <div className="mt-2 text-slate-400">{chunk.content}</div>
                     </div>
                   </div>
                 ))}
