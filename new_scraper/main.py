@@ -55,10 +55,23 @@ for page in pages:
 """
 
 # SCRAPE FROM URL
-# """
+"""
 urls = [
-    # rework
-    "https://rework.withgoogle.com/print/guides/5749328048029696/",
+    # google rework
+    # "https://rework.withgoogle.com/print/guides/5749328048029696/",
+    # "https://rework.withgoogle.com/print/guides/5383427704487936/",
+    # "https://rework.withgoogle.com/print/guides/5699257587728384/",
+    # "https://rework.withgoogle.com/print/guides/5083289484263424/",
+    # "https://rework.withgoogle.com/print/guides/5989177275449344/",
+    # "https://rework.withgoogle.com/print/guides/5730082031140864/",
+    # "https://rework.withgoogle.com/print/guides/5664902681198592/",
+    # "https://rework.withgoogle.com/print/guides/6309005504806912/",
+    # "https://rework.withgoogle.com/case-studies/CalGovOps-manager-training/",
+    # "https://rework.withgoogle.com/blog/the-evolution-of-project-oxygen/",
+    # "https://rework.withgoogle.com/blog/listen-to-this-podcast-on-how-Google-develops/",
+    # "https://rework.withgoogle.com/blog/support-managers-with-rework-tools/",
+    # "https://rework.withgoogle.com/blog/Googles-effort-to-make-managers-awesome/",
+    # "https://rework.withgoogle.com/blog/rework-for-small-businesses/",
 
     # code climate
     # "https://cod-twister-production.cl-us-east-3.servd.dev/blog/7-biggest-communication-problems-facing-remote-engineering-teams",
@@ -193,7 +206,7 @@ for url_data in data:
     texts = text_splitter.split_text(url_data.page_content)
     for text in texts:
         chunks.append({"source": url_data.metadata["source"], "content": text})
-# """
+"""
 
 # PARSE TEXT FILES
 """
@@ -206,6 +219,14 @@ for page in parsed:
     texts = text_splitter.split_text(page["unchunked_content"])
     for text in texts:
         chunks.append({"source": page["source"], "content": text})
+"""
+
+# LOAD YOUTUBE
+"""
+from langchain.document_loaders import YoutubeLoader
+loader = YoutubeLoader.from_youtube_url("https://www.youtube.com/watch?v=JattR1uoX7g", add_video_info=True)
+data = loader.load()
+print(data)
 """
 
 # WRITE TO JSON

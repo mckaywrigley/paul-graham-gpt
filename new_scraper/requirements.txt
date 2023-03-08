@@ -56,6 +56,7 @@ python-docx==0.8.11
 python-dotenv==1.0.0
 python-magic==0.4.27
 python-pptx==0.6.21
+pytube==12.1.2
 pytz==2022.7.1
 PyYAML==6.0
 regex==2022.10.31
@@ -83,4 +84,5 @@ websockets==10.4
 wrapt==1.14.1
 XlsxWriter==3.0.8
 yarl==1.8.2
+youtube-transcript-api==0.5.0
 yt-dlp==2023.3.3
