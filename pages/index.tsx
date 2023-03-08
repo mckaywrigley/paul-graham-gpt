@@ -357,17 +357,17 @@ export default function Home() {
                       <div className="mt-4 border border-zinc-600 rounded-lg p-4">
                         <div className="flex justify-between">
                           <div>
-                            <div className="font-bold text-xl">{chunk.essay_title}</div>
-                            <div className="mt-1 font-bold text-sm">{chunk.essay_date}</div>
+                            <div className="font-bold text-xl">{chunk.source}</div>
+                            {/* <div className="mt-1 font-bold text-sm">{chunk.essay_date}</div> */}
                           </div>
-                          <a
+                          {/* <a
                             className="hover:opacity-50 ml-2"
                             href={chunk.essay_url}
                             target="_blank"
                             rel="noreferrer"
                           >
                             <IconExternalLink />
-                          </a>
+                          </a> */}
                         </div>
                         <div className="mt-2">{chunk.content}</div>
                       </div>
