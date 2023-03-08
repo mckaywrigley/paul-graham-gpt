@@ -214,7 +214,7 @@ export default function Home() {
         />
       </Head>
 
-      <div className="flex flex-col h-screen bg-indigo-500">
+      <div className="flex flex-col h-screen bg-slate-800">
         <Navbar />
         <div className="flex-1 overflow-auto">
           <div className="mx-auto flex h-full w-full max-w-[750px] flex-col items-center px-3 pt-4 sm:pt-8">
@@ -324,7 +324,7 @@ export default function Home() {
               <div className="mt-6 w-full">
                 {mode === "chat" && (
                   <>
-                    <div className="font-bold text-2xl">Answer</div>
+                    <div className="font-bold text-2xl text-slate-50">Answer</div>
                     <div className="animate-pulse mt-2">
                       <div className="h-4 bg-gray-300 rounded"></div>
                       <div className="h-4 bg-gray-300 rounded mt-2"></div>
@@ -335,7 +335,7 @@ export default function Home() {
                   </>
                 )}
 
-                <div className="font-bold text-2xl mt-6">Sources</div>
+                <div className="font-bold text-2xl mt-6 text-slate-50">Sources</div>
                 <div className="animate-pulse mt-2">
                   <div className="h-4 bg-gray-300 rounded"></div>
                   <div className="h-4 bg-gray-300 rounded mt-2"></div>
@@ -346,11 +346,11 @@ export default function Home() {
               </div>
             ) : answer ? (
               <div className="mt-6">
-                <div className="font-bold text-2xl mb-2">Answer</div>
+                <div className="font-bold text-2xl mb-2 text-slate-50">Answer</div>
                 <Answer text={answer} />
 
                 <div className="mt-6 mb-16">
-                  <div className="font-bold text-2xl">Sources</div>
+                  <div className="font-bold text-2xl text-slate-50">Sources</div>
 
                   {chunks.map((chunk, index) => (
                     <div key={index}>
@@ -401,7 +401,7 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              <><div className="mt-6 text-center text-lg">{`Improve your dev team based on insights from the world's top thinkers.`}</div></>
+              <><div className="mt-6 text-center text-lg text-slate-300">{`Improve your dev team based on insights from the world's top thinkers.`}</div></>
             )}
           </div>
         </div>
