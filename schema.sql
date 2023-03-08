@@ -5,7 +5,8 @@ create table pg (
   id bigserial primary key,
   source text,
   content text,
-  embedding vector (1536)
+  embedding vector (1536),
+  is_scholarly bool
 );
 -- RUN 3rd after running the scripts
 create or replace function pg_search (
@@ -24,6 +25,10 @@ select pg.id,
   1 - (pg.embedding <=> query_embedding) as similarity
 from pg
 where 1 - (pg.embedding <=> query_embedding) > similarity_threshold
+  and (
+    is_scholarly IS NULL
+    OR is_scholarly = TRUE
+  )
 order by pg.embedding <=> query_embedding
 limit match_count;
 end;
