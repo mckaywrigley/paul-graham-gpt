@@ -39,20 +39,18 @@ for text in texts:
 """
 
 # SPLIT PDFS
-"""
 from langchain.document_loaders import PagedPDFSplitter
 
-loader = PagedPDFSplitter("sources/2022_state_of_devops_report.pdf")
-pages = loader.load_and_split()
+for pdf_uri in glob.glob("sources/todo/*.pdf"):
+    loader = PagedPDFSplitter(pdf_uri)
+    pages = loader.load_and_split()
 
-
-for page in pages:
-    texts = text_splitter.split_text(page.page_content)
-    for text in texts:
-        chunks.append(
-            {"source": "sources/2022_state_of_devops_report.pdf", "content": text}
-        )
-"""
+    for page in pages:
+        texts = text_splitter.split_text(page.page_content)
+        for text in texts:
+            chunks.append(
+                {"source": pdf_uri, "content": text}
+            )
 
 # SCRAPE FROM URL
 """
