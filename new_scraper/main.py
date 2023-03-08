@@ -216,9 +216,6 @@ elif document_type == "DOCUMENT_TYPE_URL":
         # "https://www.swarmia.com/blog/well-researched-advice-on-software-team-productivity/",
         # "https://www.swarmia.com/blog/busting-the-10x-software-engineer-myth/",
 
-        # works but creates too big chunks
-        # "https://www.faros.ai/blog/are-you-using-or-about-to-use-dora-metrics-read-this-first",
-
         # didn't work
         # "https://devinterrupted.com/level-up-your-engineering-management-skills-why-you-should-view-your-mistakes-as-misses",
         # "https://jellyfish.co/blog/engineering-kpis-during-an-economic-downtrun/",
