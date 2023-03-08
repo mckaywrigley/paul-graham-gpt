@@ -79,8 +79,10 @@ elif document_type == "DOCUMENT_TYPE_PDF":
             )
 
 # SCRAPE FROM URL
-elif document_type == "DOCUMENT_TYPE_PDF":
+elif document_type == "DOCUMENT_TYPE_URL":
     urls = [
+        args.document
+
         # google rework
         # "https://rework.withgoogle.com/print/guides/5749328048029696/",
         # "https://rework.withgoogle.com/print/guides/5383427704487936/",
