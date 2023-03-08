@@ -350,7 +350,7 @@ export default function Home() {
                 <Answer text={answer} />
 
                 <div className="mt-6 mb-16">
-                  <div className="font-bold text-2xl">Passages</div>
+                  <div className="font-bold text-2xl">Research</div>
 
                   {chunks.map((chunk, index) => (
                     <div key={index}>
