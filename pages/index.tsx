@@ -312,7 +312,7 @@ export default function Home() {
                 Please enter your
                 <a
                   className="mx-2 underline hover:opacity-50"
-                  href="https://openai.com/product"
+                  href="https://platform.openai.com/account/api-keys"
                 >
                   OpenAI API key
                 </a>
