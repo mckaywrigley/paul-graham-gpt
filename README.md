@@ -46,8 +46,7 @@ Here's a quick overview of how to run it locally.
 ### Requirements
 
 1. Set up OpenAI
-
-You'll need an OpenAI API key to generate embeddings.
+  - You'll need an OpenAI API key to generate embeddings.
 
 2. Set up Supabase and create a database
 
