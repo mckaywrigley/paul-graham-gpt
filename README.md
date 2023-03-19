@@ -51,11 +51,11 @@ You'll need an OpenAI API key to generate embeddings.
 
 2. Set up Supabase and create a database
 
-Note: You don't have to use Supabase. Use whatever method you prefer to store your data. But I like Supabase and think it's easy to use.
+3. Run the `schema.sql` file in the SQL editor in Supabase
+  - I recommend turning on Row Level Security and setting up a service role to use with the app.
 
-There is a schema.sql file in the root of the repo that you can use to set up the database.
-
-Run that in the SQL editor in Supabase as directed.
+_Note: You don't have to use Supabase. Use whatever method you prefer to store your data. But I like Supabase and think it's easy to use. Y
+ou can still use the `schema.sql` for the database of your choice._
 
 I recommend turning on Row Level Security and setting up a service role to use with the app.
 
