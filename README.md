@@ -93,6 +93,7 @@ This scrapes all of the essays from Paul Graham's website and saves them to a js
 7. Run embedding script
 
 ```bash
+# Make sure you've setup the database tables with `schema.sql`.
 npm run embed
 ```
 
