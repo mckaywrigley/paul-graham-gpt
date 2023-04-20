@@ -1,43 +1,39 @@
-import { encode } from "gpt-3-encoder";
+import { PGChunk, PGEssay, PGJSON } from "@/types";
 import fs from "fs";
-import axios from "axios";
-import { YouTubeTranscript } from "node-youtube-transcript";
+import path from "path";
+import { encode } from "gpt-3-encoder";
 
 const CHUNK_SIZE = 200;
-const PLAYLIST_ID = "PLjH18-dhIa4oDDVFDoRwiYVQ0mWGgxasP";
-const API_KEY = "TU_API_KEY";
+const TRANSCRIPTIONS_DIR = "transcriptions"; // Reemplaza esto con la ruta de tu carpeta de transcripciones
 
-const getVideoIds = async () => {
-  const response = await axios.get(
-    `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${PLAYLIST_ID}&key=${API_KEY}`
-  );
-
-  const videoIds = response.data.items.map((item) => item.snippet.resourceId.videoId);
-  return videoIds;
+const getFilenames = async () => {
+  return fs.readdirSync(TRANSCRIPTIONS_DIR).filter((file) => file.endsWith(".txt"));
 };
 
-const getTranscript = async (videoId) => {
-  try {
-    const transcript = await YouTubeTranscript.fetchTranscript(videoId, "en");
+const getTranscription = async (filename: string) => {
+  const content = fs.readFileSync(path.join(TRANSCRIPTIONS_DIR, filename), "utf-8");
 
-    const content = transcript
-      .map((entry) => entry.text)
-      .join(" ")
-      .replace(/\s+/g, " ")
-      .replace(/\.([a-zA-Z])/g, ". $1");
+  let transcription: PGEssay = {
+    title: filename.replace(".txt", ""),
+    url: "",
+    date: "",
+    thanks: "",
+    content,
+    length: content.length,
+    tokens: encode(content).length,
+    chunks: [],
+  };
 
-    return content;
-  } catch (error) {
-    console.error(`Error al obtener la transcripción del video ${videoId}:`, error);
-    return "";
-  }
+  return transcription;
 };
 
-const chunkTranscript = (transcript) => {
-  const transcriptChunks = [];
+const chunkTranscription = async (transcription: PGEssay) => {
+  const { title, url, date, thanks, content, ...chunklessSection } = transcription;
 
-  if (encode(transcript).length > CHUNK_SIZE) {
-    const split = transcript.split(". ");
+  let transcriptionTextChunks = [];
+
+  if (encode(content).length > CHUNK_SIZE) {
+    const split = content.split(". ");
     let chunkText = "";
 
     for (let i = 0; i < split.length; i++) {
@@ -46,7 +42,7 @@ const chunkTranscript = (transcript) => {
       const chunkTextTokenLength = encode(chunkText).length;
 
       if (chunkTextTokenLength + sentenceTokenLength.length > CHUNK_SIZE) {
-        transcriptChunks.push(chunkText);
+        transcriptionTextChunks.push(chunkText);
         chunkText = "";
       }
 
@@ -57,27 +53,70 @@ const chunkTranscript = (transcript) => {
       }
     }
 
-    transcriptChunks.push(chunkText.trim());
+    transcriptionTextChunks.push(chunkText.trim());
   } else {
-    transcriptChunks.push(transcript.trim());
+    transcriptionTextChunks.push(content.trim());
   }
 
-  return transcriptChunks;
+  const transcriptionChunks = transcriptionTextChunks.map((text) => {
+    const trimmedText = text.trim();
+
+    const chunk: PGChunk = {
+      essay_title: title,
+      essay_url: url,
+      essay_date: date,
+      essay_thanks: thanks,
+      content: trimmedText,
+      content_length: trimmedText.length,
+      content_tokens: encode(trimmedText).length,
+      embedding: [],
+    };
+
+    return chunk;
+  });
+
+  if (transcriptionChunks.length > 1) {
+    for (let i = 0; i < transcriptionChunks.length; i++) {
+      const chunk = transcriptionChunks[i];
+      const prevChunk = transcriptionChunks[i - 1];
+
+      if (chunk.content_tokens < 100 && prevChunk) {
+        prevChunk.content += " " + chunk.content;
+        prevChunk.content_length += chunk.content_length;
+        prevChunk.content_tokens += chunk.content_tokens;
+        transcriptionChunks.splice(i, 1);
+        i--;
+      }
+    }
+  }
+
+  const chunkedSection: PGEssay = {
+    ...transcription,
+    chunks: transcriptionChunks,
+  };
+
+  return chunkedSection;
 };
 
 (async () => {
-  const videoIds = await getVideoIds();
-  const transcripts = [];
+  const filenames = await getFilenames();
 
-  for (const videoId of videoIds) {
-    const transcript = await getTranscript(videoId);
-    const chunkedTranscript = chunkTranscript(transcript);
-    transcripts.push({
-      videoId,
-      transcript,
-      chunks: chunkedTranscript,
-    });
+  let transcriptions = [];
+
+  for (let i = 0; i < filenames.length; i++) {
+    const transcription = await getTranscription(filenames[i]);
+    const chunkedTranscription = await chunkTranscription(transcription);
+    transcriptions.push(chunkedTranscription);
   }
 
-  fs.writeFileSync("transcripts.json", JSON.stringify(transcripts));
+  const json: PGJSON = {
+    current_date: "2023-03-01", // Actualiza esta fecha si es necesario
+    author: "Nombre del autor", // Reemplaza esto con el nombre del autor
+    url: "URL del canal", // Reemplaza esto con la URL del canal
+    length: transcriptions.reduce((acc, transcription) => acc + transcription.length, 0),
+    tokens: transcriptions.reduce((acc, transcription) => acc + transcription.tokens, 0),
+    essays: transcriptions,
+  };
+
+  fs.writeFileSync("scripts/transcriptions.json", JSON.stringify(json));
 })();
