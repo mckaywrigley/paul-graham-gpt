@@ -1,119 +1,43 @@
-import { PGChunk, PGEssay, PGJSON } from "@/types";
-import axios from "axios";
-import * as cheerio from "cheerio";
-import fs from "fs";
 import { encode } from "gpt-3-encoder";
+import fs from "fs";
+import axios from "axios";
+import { YouTubeTranscript } from "node-youtube-transcript";
 
-const BASE_URL = "http://www.paulgraham.com/";
 const CHUNK_SIZE = 200;
+const PLAYLIST_ID = "PLjH18-dhIa4oDDVFDoRwiYVQ0mWGgxasP";
+const API_KEY = "TU_API_KEY";
 
-const getLinks = async () => {
-  const html = await axios.get(`${BASE_URL}articles.html`);
-  const $ = cheerio.load(html.data);
-  const tables = $("table");
+const getVideoIds = async () => {
+  const response = await axios.get(
+    `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${PLAYLIST_ID}&key=${API_KEY}`
+  );
 
-  const linksArr: { url: string; title: string }[] = [];
-
-  tables.each((i, table) => {
-    if (i === 2) {
-      const links = $(table).find("a");
-      links.each((i, link) => {
-        const url = $(link).attr("href");
-        const title = $(link).text();
-
-        if (url && url.endsWith(".html")) {
-          const linkObj = {
-            url,
-            title
-          };
-
-          linksArr.push(linkObj);
-        }
-      });
-    }
-  });
-
-  return linksArr;
+  const videoIds = response.data.items.map((item) => item.snippet.resourceId.videoId);
+  return videoIds;
 };
 
-const getEssay = async (linkObj: { url: string; title: string }) => {
-  const { title, url } = linkObj;
+const getTranscript = async (videoId) => {
+  try {
+    const transcript = await YouTubeTranscript.fetchTranscript(videoId, "en");
 
-  let essay: PGEssay = {
-    title: "",
-    url: "",
-    date: "",
-    thanks: "",
-    content: "",
-    length: 0,
-    tokens: 0,
-    chunks: []
-  };
+    const content = transcript
+      .map((entry) => entry.text)
+      .join(" ")
+      .replace(/\s+/g, " ")
+      .replace(/\.([a-zA-Z])/g, ". $1");
 
-  const fullLink = BASE_URL + url;
-  const html = await axios.get(fullLink);
-  const $ = cheerio.load(html.data);
-  const tables = $("table");
-
-  tables.each((i, table) => {
-    if (i === 1) {
-      const text = $(table).text();
-
-      let cleanedText = text.replace(/\s+/g, " ");
-      cleanedText = cleanedText.replace(/\.([a-zA-Z])/g, ". $1");
-
-      const date = cleanedText.match(/([A-Z][a-z]+ [0-9]{4})/);
-      let dateStr = "";
-      let textWithoutDate = "";
-
-      if (date) {
-        dateStr = date[0];
-        textWithoutDate = cleanedText.replace(date[0], "");
-      }
-
-      let essayText = textWithoutDate.replace(/\n/g, " ");
-      let thanksTo = "";
-
-      const split = essayText.split(". ").filter((s) => s);
-      const lastSentence = split[split.length - 1];
-
-      if (lastSentence && lastSentence.includes("Thanks to")) {
-        const thanksToSplit = lastSentence.split("Thanks to");
-
-        if (thanksToSplit[1].trim()[thanksToSplit[1].trim().length - 1] === ".") {
-          thanksTo = "Thanks to " + thanksToSplit[1].trim();
-        } else {
-          thanksTo = "Thanks to " + thanksToSplit[1].trim() + ".";
-        }
-
-        essayText = essayText.replace(thanksTo, "");
-      }
-
-      const trimmedContent = essayText.trim();
-
-      essay = {
-        title,
-        url: fullLink,
-        date: dateStr,
-        thanks: thanksTo.trim(),
-        content: trimmedContent,
-        length: trimmedContent.length,
-        tokens: encode(trimmedContent).length,
-        chunks: []
-      };
-    }
-  });
-
-  return essay;
+    return content;
+  } catch (error) {
+    console.error(`Error al obtener la transcripción del video ${videoId}:`, error);
+    return "";
+  }
 };
 
-const chunkEssay = async (essay: PGEssay) => {
-  const { title, url, date, thanks, content, ...chunklessSection } = essay;
+const chunkTranscript = (transcript) => {
+  const transcriptChunks = [];
 
-  let essayTextChunks = [];
-
-  if (encode(content).length > CHUNK_SIZE) {
-    const split = content.split(". ");
+  if (encode(transcript).length > CHUNK_SIZE) {
+    const split = transcript.split(". ");
     let chunkText = "";
 
     for (let i = 0; i < split.length; i++) {
@@ -122,7 +46,7 @@ const chunkEssay = async (essay: PGEssay) => {
       const chunkTextTokenLength = encode(chunkText).length;
 
       if (chunkTextTokenLength + sentenceTokenLength.length > CHUNK_SIZE) {
-        essayTextChunks.push(chunkText);
+        transcriptChunks.push(chunkText);
         chunkText = "";
       }
 
@@ -133,70 +57,27 @@ const chunkEssay = async (essay: PGEssay) => {
       }
     }
 
-    essayTextChunks.push(chunkText.trim());
+    transcriptChunks.push(chunkText.trim());
   } else {
-    essayTextChunks.push(content.trim());
+    transcriptChunks.push(transcript.trim());
   }
 
-  const essayChunks = essayTextChunks.map((text) => {
-    const trimmedText = text.trim();
-
-    const chunk: PGChunk = {
-      essay_title: title,
-      essay_url: url,
-      essay_date: date,
-      essay_thanks: thanks,
-      content: trimmedText,
-      content_length: trimmedText.length,
-      content_tokens: encode(trimmedText).length,
-      embedding: []
-    };
-
-    return chunk;
-  });
-
-  if (essayChunks.length > 1) {
-    for (let i = 0; i < essayChunks.length; i++) {
-      const chunk = essayChunks[i];
-      const prevChunk = essayChunks[i - 1];
-
-      if (chunk.content_tokens < 100 && prevChunk) {
-        prevChunk.content += " " + chunk.content;
-        prevChunk.content_length += chunk.content_length;
-        prevChunk.content_tokens += chunk.content_tokens;
-        essayChunks.splice(i, 1);
-        i--;
-      }
-    }
-  }
-
-  const chunkedSection: PGEssay = {
-    ...essay,
-    chunks: essayChunks
-  };
-
-  return chunkedSection;
+  return transcriptChunks;
 };
 
 (async () => {
-  const links = await getLinks();
+  const videoIds = await getVideoIds();
+  const transcripts = [];
 
-  let essays = [];
-
-  for (let i = 0; i < links.length; i++) {
-    const essay = await getEssay(links[i]);
-    const chunkedEssay = await chunkEssay(essay);
-    essays.push(chunkedEssay);
+  for (const videoId of videoIds) {
+    const transcript = await getTranscript(videoId);
+    const chunkedTranscript = chunkTranscript(transcript);
+    transcripts.push({
+      videoId,
+      transcript,
+      chunks: chunkedTranscript,
+    });
   }
 
-  const json: PGJSON = {
-    current_date: "2023-03-01",
-    author: "Paul Graham",
-    url: "http://www.paulgraham.com/articles.html",
-    length: essays.reduce((acc, essay) => acc + essay.length, 0),
-    tokens: essays.reduce((acc, essay) => acc + essay.tokens, 0),
-    essays
-  };
-
-  fs.writeFileSync("scripts/pg.json", JSON.stringify(json));
+  fs.writeFileSync("transcripts.json", JSON.stringify(transcripts));
 })();
