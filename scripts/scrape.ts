@@ -4,7 +4,7 @@ import path from "path";
 import { encode } from "gpt-3-encoder";
 
 const CHUNK_SIZE = 200;
-const TRANSCRIPTIONS_DIR = "transcriptions"; // Reemplaza esto con la ruta de tu carpeta de transcripciones
+const TRANSCRIPTIONS_DIR = "./scripts/data"; // Reemplaza esto con la ruta de tu carpeta de transcripciones
 
 const getFilenames = async () => {
   return fs.readdirSync(TRANSCRIPTIONS_DIR).filter((file) => file.endsWith(".txt"));
