@@ -28,15 +28,17 @@ const getTranscription = async (filename: string) => {
 };
 
 const chunkTranscription = async (transcription: PGEssay) => {
+  console.log("chunking", transcription.title);
   const { title, url, date, thanks, content, ...chunklessSection } = transcription;
 
   let transcriptionTextChunks = [];
 
   if (encode(content).length > CHUNK_SIZE) {
-    const split = content.split(". ");
+    const split = content.split("\r\n");
     let chunkText = "";
 
     for (let i = 0; i < split.length; i++) {
+      console.log(i)
       const sentence = split[i];
       const sentenceTokenLength = encode(sentence);
       const chunkTextTokenLength = encode(chunkText).length;
@@ -47,7 +49,7 @@ const chunkTranscription = async (transcription: PGEssay) => {
       }
 
       if (sentence[sentence.length - 1].match(/[a-z0-9]/i)) {
-        chunkText += sentence + ". ";
+        chunkText += sentence + " ";
       } else {
         chunkText += sentence + " ";
       }
