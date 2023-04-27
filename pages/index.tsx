@@ -17,7 +17,7 @@ export default function Home() {
 
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [mode, setMode] = useState<"search" | "chat">("chat");
-  const [matchCount, setMatchCount] = useState<number>(5);
+  const [matchCount, setMatchCount] = useState<number>(3);
   const [apiKey, setApiKey] = useState<string>("");
 
   const handleSearch = async () => {
@@ -94,7 +94,7 @@ export default function Home() {
     setChunks(results);
 
     const prompt = endent`
-    Use the following passages to provide an answer to the query: "${query}"
+    Usa los siguientes fragmentos de la serie de dudas de cultivo de Envola para responder a la conversacion: "${query}"
 
     ${results?.map((d: any) => d.content).join("\n\n")}
     `;
