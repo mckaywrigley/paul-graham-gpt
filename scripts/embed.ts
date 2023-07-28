@@ -10,33 +10,32 @@ const generateEmbeddings = async (essays: PGEssay[]) => {
   const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
   const openai = new OpenAIApi(configuration);
 
-  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+  const supabase = createClient(process.env.
+    NEXT_PUBLIC_SUPABASE_URL!, process.env.
+    SUPABASE_SERVICE_ROLE_KEY!);
 
   for (let i = 0; i < essays.length; i++) {
-    const section = essays[i];
+    const essay = essays[i];
 
-    for (let j = 0; j < section.chunks.length; j++) {
-      const chunk = section.chunks[j];
+    for (let j = 0; j < essay.chunks.length; j++) {
+      const chunk = essay.chunks[j];
 
       const { essay_title, essay_url, essay_date, essay_thanks, content, content_length, content_tokens } = chunk;
 
       const embeddingResponse = await openai.createEmbedding({
         model: "text-embedding-ada-002",
-        input: content
+        input: chunk.content
       });
 
       const [{ embedding }] = embeddingResponse.data.data;
 
       const { data, error } = await supabase
-        .from("pg")
+        .from("lyrics_mla")
         .insert({
-          essay_title,
-          essay_url,
-          essay_date,
-          essay_thanks,
-          content,
-          content_length,
-          content_tokens,
+          essay_title: chunk.essay_title,
+          essay_url: chunk.essay_url,
+          content: chunk.content,
+          content_tokens: chunk.content_tokens,
           embedding
         })
         .select("*");
